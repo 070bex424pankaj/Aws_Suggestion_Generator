@@ -4,10 +4,11 @@ from usagesummarygenerator import UsageSummaryGenerator
 from jsondataload import JsonDataLoad
 
 class Main():
-    def __init__(self,source):
+    def __init__(self,source,json_file_location,csv_file_location,rightsize):
+        self.rightsize = rightsize
         
-        self.preprocessingobject = PreProcessingExtractedCsvFile()
-        self.u = UsageSummaryGenerator(source)
+        self.preprocessingobject = PreProcessingExtractedCsvFile(csv_file_location)
+        self.u = UsageSummaryGenerator(source,json_file_location)
         self.r =RecommendationMachine()
         #replace null value of Memory with zero
         self.preprocessingobject.repalce_null_values('Memory')
@@ -33,20 +34,26 @@ class Main():
         self.preprocessingobject.convert_1yr_to_hr()    
         #convert to integer for the value of Priceperunit column
         extracted_price_csv = self.preprocessingobject.convert_to_float("PricePerUnit")
+        
+        #old
+
         get_ram,avg_ram_usage,get_cpu,avg_cpu_usage, os = self.u.calculate_mean_usage()        
-        ram_gb, cpu_cores, os = self.r.get_right_sized_data(get_ram, avg_ram_usage, get_cpu, avg_cpu_usage, os)    
+        ram_gb, cpu_cores, os = self.r.get_right_sized_data(self.rightsize,get_ram, avg_ram_usage, get_cpu, avg_cpu_usage, os)    
         filtereddata= self.r.filter_based_on_preference(extracted_price_csv, ram_gb, cpu_cores, os)
         filtereddata= self.r.group_by(filtereddata)
         print(self.r.select_minimum(filtereddata))
+            
 
 #it creates two objects for two sources and calls the run_function of the main class
 if __name__ == "__main__":
     #create two objects for two different source
-    data_parsed = JsonDataLoad().load_file()
+    json_file_location = 'Nov11_2012_81.json'
+    csv_file_location = 'EC2_pricing.csv'
+    data_parsed = JsonDataLoad(json_file_location).load_file()
     l = []
     for i in range(len(data_parsed)):
         source = data_parsed[i]['source']
         if source not in l:
             l.append(source)
     for i in l:
-        Main(i)
+        Main(i,json_file_location,csv_file_location,'mean')

@@ -1,9 +1,11 @@
-from rightsizer import RightSizer
+from shapefactory import ShapeFactory
 class RecommendationMachine():
            
           
-    def get_right_sized_data(self,get_ram, avg_ram_usage, get_cpu, avg_cpu_usage, os):
-        ram_gb, cpu_cores, os =  RightSizer().RightSize(get_ram, avg_ram_usage, get_cpu, avg_cpu_usage, os)
+    def get_right_sized_data(self,rightsize,get_ram, avg_ram_usage, get_cpu, avg_cpu_usage, os):
+#         ram_gb, cpu_cores, os =  MedianRightSizer(get_ram, avg_ram_usage, get_cpu, avg_cpu_usage, os).RightSize()
+        ram_gb,cpu_cores, os = ShapeFactory.create_right_sizer(self,rightsize,get_ram, avg_ram_usage, get_cpu, avg_cpu_usage, os)
+
         return ram_gb, cpu_cores, os
         
         

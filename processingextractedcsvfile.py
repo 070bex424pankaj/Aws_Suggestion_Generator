@@ -2,8 +2,9 @@ from parseawspricing import ParseAWSPricingData
 
 class PreProcessingExtractedCsvFile():
     
-    def __init__(self):
-        self.extracted_price_csv = ParseAWSPricingData().extract_only()
+    def __init__(self,location_csv):
+        self.location_csv = location_csv
+        self.extracted_price_csv = ParseAWSPricingData(self.location_csv).extract_only()
         
     def repalce_null_values(self,data):
         #remove null values
