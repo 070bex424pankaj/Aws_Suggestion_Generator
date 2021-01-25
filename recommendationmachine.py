@@ -9,13 +9,15 @@ class RecommendationMachine():
         return ram_gb, cpu_cores, os
         
         
-    def filter_based_on_preference(self, extracted_price_csv, ram_gb, cpu_cores, os):
+    def filter_based_on_preference(self, extracted_price_csv, ram_gb, cpu_cores, os,purchaseoption):
         #we filter out the data based on right sizing of resources and the selection is done only on no upfront
         #print(self.ram_gb,self.cpu_cores,self.os)
+        if purchaseoption == 'All Upfront':
+            extracted_price_csv = extracted_price_csv.loc[(extracted_price_csv['Unit'] == 'Quantity')]
         self.filtereddata =  extracted_price_csv[(extracted_price_csv['Memory'] >= ram_gb) & 
                                            (extracted_price_csv['vCPU'] >= cpu_cores) & 
                                            (extracted_price_csv['Operating System'] == os) &
-                                           (extracted_price_csv['PurchaseOption'] == 'No Upfront')]
+                                           (extracted_price_csv['PurchaseOption'] == purchaseoption)]
         return self.filtereddata
     def group_by(self,filtereddata):
         #we group by SKU

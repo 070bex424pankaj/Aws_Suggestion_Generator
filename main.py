@@ -4,8 +4,9 @@ from usagesummarygenerator import UsageSummaryGenerator
 from jsondataload import JsonDataLoad
 
 class Main():
-    def __init__(self,source,json_file_location,csv_file_location,rightsize):
+    def __init__(self,source,json_file_location,csv_file_location,rightsize,purchaseoption):
         self.rightsize = rightsize
+        self.purchaseoption = purchaseoption
         
         self.preprocessingobject = PreProcessingExtractedCsvFile(csv_file_location)
         self.u = UsageSummaryGenerator(source,json_file_location)
@@ -39,7 +40,7 @@ class Main():
 
         get_ram,avg_ram_usage,get_cpu,avg_cpu_usage, os = self.u.calculate_mean_usage()        
         ram_gb, cpu_cores, os = self.r.get_right_sized_data(self.rightsize,get_ram, avg_ram_usage, get_cpu, avg_cpu_usage, os)    
-        filtereddata= self.r.filter_based_on_preference(extracted_price_csv, ram_gb, cpu_cores, os)
+        filtereddata= self.r.filter_based_on_preference(extracted_price_csv, ram_gb, cpu_cores, os,self.purchaseoption)
         filtereddata= self.r.group_by(filtereddata)
         print(self.r.select_minimum(filtereddata))
             
@@ -56,4 +57,4 @@ if __name__ == "__main__":
         if source not in l:
             l.append(source)
     for i in l:
-        Main(i,json_file_location,csv_file_location,'mean')
+        Main(i,json_file_location,csv_file_location,'mean','All Upfront')
