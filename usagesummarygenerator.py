@@ -14,7 +14,7 @@ class UsageSummaryGenerator():
         self.list_of_ram_gb = []
         self.list_of_cpu_cores = []
     
-    def calculate_mean_usage(self):
+    def calculate_usage(self):
         #check if the source is matched or not
         for i in range(len(self.data_parsed)):
             if self.data_parsed[i]['source'] == self.source:

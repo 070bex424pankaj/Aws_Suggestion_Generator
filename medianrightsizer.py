@@ -1,13 +1,11 @@
 from abstractrightsizerclass import RightSizer
 class MedianRightSizer(RightSizer):
     
-    def __init__(self,get_ram,list_of_ram_gb,get_cpu,list_of_cpu_cores,os):
-        self.get_ram = get_ram
+    def __init__(self,list_of_ram_gb,list_of_cpu_cores):
+
         self.list_of_ram_gb =list_of_ram_gb
-        self.get_cpu = get_cpu
         self.list_of_cpu_cores = list_of_cpu_cores
-        self.os = os
-        
+
     
     #this method calculates the right sizing of the resources            
     def RightSize(self):
@@ -33,12 +31,12 @@ class MedianRightSizer(RightSizer):
             self.median_cpu_usage = self.list_of_cpu_cores[total_length_ram_and_cpu//2]
         
         
-        if self.median_ram_usage >= 90:
-            self.get_ram *=2
-        if self.median_ram_usage <= 50:
-            self.get_ram /=2
-        if self.median_cpu_usage <= 50:
-            self.get_cpu /=2
-        if self.median_cpu_usage >= 90:
-            self.get_cpu *=2
-        return self.get_ram, self.get_cpu, self.os
+#         if self.median_ram_usage >= 90:
+#             self.get_ram *=2
+#         if self.median_ram_usage <= 50:
+#             self.get_ram /=2
+#         if self.median_cpu_usage <= 50:
+#             self.get_cpu /=2
+#         if self.median_cpu_usage >= 90:
+#             self.get_cpu *=2
+        return self.median_ram_usage, self.median_cpu_usage

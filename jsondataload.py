@@ -11,4 +11,3 @@ class JsonDataLoad():
         with open(self.file_location) as f:
             self.data_json = json.load(f)
         return self.data_json
-        

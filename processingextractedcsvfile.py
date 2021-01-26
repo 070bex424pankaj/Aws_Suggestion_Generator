@@ -40,3 +40,4 @@ class PreProcessingExtractedCsvFile():
     def convert_1yr_to_hr(self):
         #converting unit hrs of partial, noupfront to 1 year value for suitable comparison
         self.extracted_price_csv.loc[self.extracted_price_csv.Unit == 'Hrs', 'PricePerUnit'] = self.extracted_price_csv.PricePerUnit/(24*365)
+        

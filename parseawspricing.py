@@ -12,7 +12,7 @@ class ParseAWSPricingData():
         self.extracted_price_csv = self.price_csv[["SKU","TermType","OfferTermCode",
                            "PriceDescription",
                            "Unit","PricePerUnit",
-                           "LeaseContractLength",'PurchaseOption',
+                           "LeaseContractLength",'PurchaseOption', 'OfferingClass',
                            'Instance Type','vCPU','Clock Speed',
                            'Memory','Operating System']]
         return self.extracted_price_csv
